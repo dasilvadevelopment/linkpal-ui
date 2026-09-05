@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api";
+export type User = { id: number; username: string; email: string };
 
 export class AuthError extends Error {
   fieldErrors: Record<string, string[]>;
@@ -20,7 +20,7 @@ export async function register(
   password: string,
   password2: string,
 ): Promise<void> {
-  const res = await fetch(`${API_BASE}/auth/register/`, {
+  const res = await fetch(`/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, email, password, password2 }),
@@ -33,4 +33,20 @@ export async function register(
   }
 
   throw new Error(`Registration failed (${res.status})`);
+}
+
+export async function login(
+  username: string,
+  password: string,
+): Promise<User> {
+  const res = await fetch(`/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (res.ok) return res.json();
+
+  const data = await res.json();
+  throw new AuthError({ detail: [data.detail ?? "Login failed."] });
 }
