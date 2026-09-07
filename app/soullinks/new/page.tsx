@@ -27,7 +27,7 @@ type VersionGroupListResponse = {
 // django() can't run in a client component (it reads cookies() from
 // next/headers), and there's no Next route handler proxying this public,
 // unauthenticated pokedex endpoint -- so this fetches Django directly.
-const DJANGO_URL = "http://127.0.0.1:8123/api";
+const DJANGO_URL = "http://127.0.0.1:8000/api";
 
 export default function Page() {
   const [versionGroups, setVersionGroups] = useState<VersionGroupListResponse | null>(null);

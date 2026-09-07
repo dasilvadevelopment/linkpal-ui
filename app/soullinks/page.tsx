@@ -1,39 +1,24 @@
 import { django } from "@/lib/django";
+import Link from "next/link";
 
-type VersionGroupMini = { id: number; api_id: number; name: string; display_name: string };
 
-type SoulLinkListItem = {
-  id: number;
-  name: string;
-  version_group: VersionGroupMini;
-  player_count: number;
-  status: string;
-  participant_count: number;
-  pair_count: number;
-  team_count: number;
-  created_at: string;
-};
 
-type SoulLinkListResponse = {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: SoulLinkListItem[];
-};
+export default async function SoullinkPage() {
+  const res = await django("/soullinks/");
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const { offset } = await searchParams;
-  const res = await django(`/soullinks/?offset=${typeof offset === "string" ? offset : "0"}`);
+  if (!res.ok) return <p>couldn't load soullinks ({res.status})</p>
 
-  if (res.status === 401) {
-    return <pre>401 Unauthorized -- not logged in.</pre>;
-  }
+  const { results: soullinks } = await res.json();
 
-  const data: SoulLinkListResponse = await res.json();
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return (
+    <ul>
+      {soullinks.map((soullink: { id: number; name: string }) => (
+        <Link key={soullink.id} href={`/soullinks/${soullink.id}`}>
+          <li>
+            {soullink.name}
+          </li>
+        </Link>
+      ))}
+    </ul>
+  )
 }

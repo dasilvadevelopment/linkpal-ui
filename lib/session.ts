@@ -6,12 +6,17 @@ const REFRESH = "lp_refresh";
 export async function setTokens(access: string, refresh: string) {
   const jar = await cookies();
   const secure = process.env.NODE_ENV === "production";
-  jar.set(ACCESS, access, {
-    httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 60 * 30,
-  });
-  jar.set(REFRESH, refresh, {
-    httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 14,
-  });
+  try {
+    jar.set(ACCESS, access, {
+      httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 60 * 30,
+    });
+    jar.set(REFRESH, refresh, {
+      httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 14,
+    });
+  } catch {
+    // Render context: cookies are read-only here. The caller still gets to
+    // use the refreshed token for this request; middleware persists it.
+  }
 }
 
 export async function clearTokens() {

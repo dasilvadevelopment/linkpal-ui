@@ -1,6 +1,6 @@
 import { clearTokens, getAccess, getRefresh, setTokens } from "@/lib/session";
 
-export const DJANGO = process.env.API_URL ?? "http://127.0.0.1:8123/api";
+export const DJANGO = process.env.API_URL ?? "http://127.0.0.1:8000/api";
 
 /**
  * Call Django from a server context with the access token attached.
