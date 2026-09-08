@@ -7,7 +7,7 @@
   width: 100%;
   margin: 0 auto;
 }
-.pair {
+/* .pair {
   display: flex;
   border: 2px solid #000;
   width: 200px;
@@ -18,4 +18,83 @@
 .member img{
   max-width: none;
   width: 100px;
+} */
+
+.pair{
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+
+}
+.ball-divider{
+  height: 5%;
+  background-color: black;
+  width: 195px;
+  position: absolute;
+  left: 2.5px;
+  top: 47.5%;
+}
+.ball-top, .ball-bottom{
+  height: 95px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid black;
+  /* background-position: center;
+  background-repeat: no-repeat;   */
+}
+.ball-top{
+  margin-bottom: 10px;
+  display: flex;
+  border-radius: 100px 100px 0 0;
+  width: 200px;
+}
+.ball-bottom{
+  
+  border-radius: 0 0 100px 100px;
+}
+.left, .right{
+  width: 50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.member-0{
+  border-radius: 40px 10px 0 10px;  
+}
+
+.member-1{
+  border-radius: 10px 40px 10px 0;  
+}
+
+.member-2{
+  border-radius: 10px 0 10px 40px;    
+}
+
+.member-3{
+  border-radius: 0 10px 40px 10px;
+}
+
+.typing-img{
+  width: 30px;
+}
+
+.member-0 > .typing-img{
+  right: 0px;
+  bottom: 0px;
+}
+
+.member-1 > .typing-img{
+  left: 0px;
+  bottom: 0px;
+}
+
+.member-2 > .typing-img{
+  right: 0px;
+  top: 0px;
+}
+
+.member-3 > .typing-img{
+  left: 0px;
+  top: 0px;
 }
