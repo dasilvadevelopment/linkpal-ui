@@ -1,25 +1,16 @@
 @import "tailwindcss";
 
 
-.box{
-  padding: 10px;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
+.pc{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;   
 }
-/* .pair {
-  display: flex;
-  border: 2px solid #000;
-  width: 200px;
-  height: 100px;        
-  border-radius: 10px;
-}
-
-.member img{
-  max-width: none;
-  width: 100px;
-} */
-
+.box { grid-area: 1 / 1 / 7 / 6; }
+.add-pair { grid-area: 1 / 6 / 4 / 8; }
+.team { grid-area: 4 / 6 / 7 / 8; }
 .pair{
   border-radius: 100px;
   width: 200px;
@@ -40,8 +31,6 @@
   width: 100%;
   overflow: hidden;
   border: 1px solid black;
-  /* background-position: center;
-  background-repeat: no-repeat;   */
 }
 .ball-top{
   margin-bottom: 10px;
@@ -97,4 +86,25 @@
 .member-3 > .typing-img{
   left: 0px;
   top: 0px;
+}
+
+.trio{
+  display: flex;
+  gap: 5px;
+}
+
+.trio-img{
+  width: 100px;
+}
+
+.trio-0, .duo-0{
+  border-radius: 10px 0 0 10px;
+}
+.trio-2, .duo-1{
+  border-radius: 0 10px 10px 0;
+}
+
+.typing{
+  width: 20px;
+  right: 0;
 }

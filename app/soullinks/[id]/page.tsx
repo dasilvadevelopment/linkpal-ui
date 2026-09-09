@@ -55,6 +55,7 @@ export default async function SoullinkDetailPage({ params }: { params: Promise<{
   const LinkDetails = await res.json();
   const { results: PairDetails } = await pairs.json();
   const { results: PokemonDetails } = await pokemon.json();
+  const pairCount = 0;
 
   console.log(LinkDetails);
 
@@ -62,25 +63,74 @@ export default async function SoullinkDetailPage({ params }: { params: Promise<{
   return (
     <>
       <h1 className="text-center text-6xl my-5">{LinkDetails.name}</h1>
-
-      <div className="grid gap-5 justify-center grid-cols-[repeat(auto-fill,minmax(200px,200px))]">
-        {PairDetails.map((pair: Pair, count: number) => {
+      <div className="pc">
+        <div className={`box grid gap-5 justify-center ${LinkDetails.participant_count === 3 ? "grid-cols-[repeat(auto-fill,minmax(300px,300px))]" : "grid-cols-[repeat(auto-fill,minmax(200px,200px))]"}`}>
+        {PairDetails.map((pair: Pair) => {
+          if (LinkDetails.participant_count === 2) {
             return (
-              <div key={pair.id} className="grid grid-cols-2 gap-1">
+              <div className="trio" key={pair.id}>              
                 {pair.members.map((member: Member, count) => (
-                  <div key={member.id} className={`relative member-${count}`}                    
+                  <div className={`relative duo-${count}`}
                     style={{
-                      // backgroundImage: `url(/types/${member?.primary_type.display_name}.svg)`,
-                      backgroundColor: TYPE_COLOR[member?.primary_type.display_name.toLowerCase()] ?? "#888"             
-                    }} 
+                      backgroundColor:
+                        TYPE_COLOR[member.primary_type.display_name.toLowerCase()] ?? "#888",
+                    }}
                   >
-                    <img src={`${member.pokemon_detail.sprite_default}`} alt="" />
-                    <img className="typing-img absolute" src={`/types/${member?.primary_type.display_name}.svg`} alt="" />
+                    <img className="absolute typing" src={`/types/${member.primary_type.display_name.toLowerCase()}.svg`} alt="" />
+                    <img className="trio-img" src={member?.pokemon_detail.sprite_default} alt="" />
                   </div>
                 ))}
               </div>
-            )
+            );                      
+          }
+
+          if (LinkDetails.participant_count === 3) {
+            const bg = (m?: Member) =>
+              m ? TYPE_COLOR[m.primary_type.display_name.toLowerCase()] ?? "#888" : "#EFF0F3";
+
+            return (
+              <div className="trio" key={pair.id}>              
+                {pair.members.map((member: Member, count) => (
+                  <div className={`relative trio-${count}`}
+                    style={{
+                      backgroundColor:
+                        TYPE_COLOR[member.primary_type.display_name.toLowerCase()] ?? "#888",
+                    }}
+                  >
+                    <img className="absolute typing" src={`/types/${member.primary_type.display_name.toLowerCase()}.svg`} alt="" />
+                    <img className="trio-img" src={member?.pokemon_detail.sprite_default} alt="" />
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          if (LinkDetails.participant_count === 4) {
+            return (
+              <div key={pair.id} className="grid grid-cols-2 gap-1">
+                {pair.members.map((member: Member, count) => (
+                  <div
+                    key={member.id}
+                    className={`relative member-${count}`}
+                    style={{
+                      backgroundColor:
+                        TYPE_COLOR[member.primary_type.display_name.toLowerCase()] ?? "#888",
+                    }}
+                  >
+                    <img src={member.pokemon_detail.sprite_default} alt="" />
+                    <img
+                      className="typing-img absolute"
+                      src={`/types/${member.primary_type.display_name.toLowerCase()}.svg`}
+                      alt=""
+                    />
+                  </div>
+                ))}
+              </div>
+            );
+          }
         })}
+      </div>
+
       </div>
     </>
   )
